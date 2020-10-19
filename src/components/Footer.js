@@ -10,9 +10,9 @@ const Footer = styled.footer`
 
 function Component() {
   return (
-    <footer>
+    <Footer>
       <h1>Footer</h1>
-    </footer>
+    </Footer>
   )
 }
 

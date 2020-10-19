@@ -1,13 +1,18 @@
 import { observable, action } from 'mobx'
-import { act } from 'react-dom/test-utils'
 
 class AuthStore {
   @observable isLogin = false
   @observable isLoading = false
   @observable values = {
-    username: '',
+    username: 'hushun',
     password: '',
   }
+
+  @observable name = '123'
+  @action setName(name) {
+    this.name = name
+  }
+
   @action setIsLogin(isLogin) {
     this.isLogin = isLogin
   }
@@ -41,7 +46,7 @@ class AuthStore {
   }
 
   @action logout() {
-    console.log('退出登录')
+    console.log('登出成功')
   }
 }
 

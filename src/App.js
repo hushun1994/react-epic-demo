@@ -22,6 +22,8 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/history" exact component={History} />
             <Route path="/about" exact component={About} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/register" exact component={Register} />
           </Switch>
         </Suspense>
       </main>

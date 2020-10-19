@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../logo.svg'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import { Button } from 'antd'
 
 const Header = styled.header`
   background: #02101f;
@@ -20,8 +21,17 @@ const StyledLink = styled(NavLink)`
     border-bottom: 1px solid #fff;
   }
 `
+const Login = styled.div`
+  margin-left: auto;
+`
+
+const StyledButton = styled(Button)`
+  margin-left: 10px;
+`
 
 function Component() {
+  const [isLogin, setIsLogin] = useState(false)
+
   return (
     <Header>
       <Logo src={logo} alt="logo" />
@@ -36,6 +46,23 @@ function Component() {
           关于
         </StyledLink>
       </nav>
+
+      <Login>
+        {isLogin ? (
+          <>
+            <StyledButton type="primary" onClick={() => setIsLogin(false)}>
+              注销
+            </StyledButton>
+          </>
+        ) : (
+          <>
+            <StyledButton type="primary" onClick={() => setIsLogin(true)}>
+              登陆
+            </StyledButton>
+            <StyledButton type="primary">注册</StyledButton>
+          </>
+        )}
+      </Login>
     </Header>
   )
 }
