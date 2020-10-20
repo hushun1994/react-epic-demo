@@ -1,20 +1,14 @@
-import { observable, action } from 'mobx'
+import { observable, action, makeObservable } from 'mobx'
+import { Auth } from '../models'
+import UserStore from './user'
 
 class AuthStore {
-  @observable isLogin = false
-  @observable isLoading = false
+  constructor() {
+    makeObservable(this)
+  }
   @observable values = {
-    username: 'hushun',
+    username: '',
     password: '',
-  }
-
-  @observable name = '123'
-  @action setName(name) {
-    this.name = name
-  }
-
-  @action setIsLogin(isLogin) {
-    this.isLogin = isLogin
   }
 
   @action setUsername(username) {
@@ -26,28 +20,37 @@ class AuthStore {
   }
 
   @action login() {
-    console.log('登陆中。。。。')
-    this.isLoading = true
-    setTimeout(() => {
-      console.log('登陆成功')
-      this.isLogin = true
-      this.isLoading = false
-    }, 1000)
+    return new Promise((resolve, reject) => {
+      Auth.login(this.values.username, this.values.password)
+        .then((user) => {
+          UserStore.pullUser()
+          resolve(user)
+        })
+        .catch((error) => {
+          UserStore.resetUser()
+          reject(error)
+        })
+    })
   }
 
   @action register() {
-    console.log('注册中。。。。')
-    this.isLoading = true
-    setTimeout(() => {
-      console.log('注册成功')
-      this.isLogin = true
-      this.isLoading = false
-    }, 1000)
+    return new Promise((resolve, reject) => {
+      Auth.register(this.values.username, this.values.password)
+        .then((user) => {
+          UserStore.pullUser()
+          resolve(user)
+        })
+        .catch((error) => {
+          UserStore.resetUser()
+          reject(error)
+        })
+    })
   }
 
   @action logout() {
-    console.log('登出成功')
+    Auth.logout()
+    UserStore.resetUser()
   }
 }
 
-export { AuthStore }
+export default new AuthStore()

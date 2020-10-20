@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import logo from '../logo.svg'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from 'antd'
+import { useStores } from '../stores/index'
+import { observer } from 'mobx-react'
 
 const Header = styled.header`
   background: #02101f;
@@ -29,12 +31,28 @@ const StyledButton = styled(Button)`
   margin-left: 10px;
 `
 
-function Component() {
-  const [isLogin, setIsLogin] = useState(false)
+const Component = observer(() => {
+  const { UserStore, AuthStore } = useStores()
+
+  const history = useHistory()
+
+  const handleLogout = () => {
+    AuthStore.logout()
+  }
+
+  const handleLogin = () => {
+    history.push('/login')
+  }
+
+  const handleRegister = () => {
+    history.push('/register')
+  }
 
   return (
     <Header>
-      <Logo src={logo} alt="logo" />
+      <NavLink to="/" activeClassName="active">
+        <Logo src={logo} alt="logo" />
+      </NavLink>
       <nav>
         <StyledLink to="/" activeClassName="active" exact>
           首页
@@ -48,23 +66,26 @@ function Component() {
       </nav>
 
       <Login>
-        {isLogin ? (
+        {UserStore.currentUser ? (
           <>
-            <StyledButton type="primary" onClick={() => setIsLogin(false)}>
+            {UserStore.currentUser.attributes.username}
+            <StyledButton type="primary" onClick={handleLogout}>
               注销
             </StyledButton>
           </>
         ) : (
           <>
-            <StyledButton type="primary" onClick={() => setIsLogin(true)}>
+            <StyledButton type="primary" onClick={handleLogin}>
               登陆
             </StyledButton>
-            <StyledButton type="primary">注册</StyledButton>
+            <StyledButton type="primary" onClick={handleRegister}>
+              注册
+            </StyledButton>
           </>
         )}
       </Login>
     </Header>
   )
-}
+})
 
 export default Component
