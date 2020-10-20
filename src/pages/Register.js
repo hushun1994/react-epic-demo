@@ -1,5 +1,5 @@
 import React from 'react'
-// import { observer } from 'mobx-react'
+import { observer } from 'mobx-react'
 import { useStores } from '../stores/index'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -26,7 +26,7 @@ const Title = styled.h1`
   text-align: center;
 `
 
-const Component = () => {
+const Component = observer(() => {
   const { AuthStore } = useStores()
 
   const history = useHistory()
@@ -40,7 +40,7 @@ const Component = () => {
         history.push('/')
       })
       .catch((error) => {
-        console.log('注册失败', error)
+        console.log(error)
       })
   }
 
@@ -116,6 +116,6 @@ const Component = () => {
       </Form>
     </Wrapper>
   )
-}
+})
 
 export default Component

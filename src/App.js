@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import './App.css'
 import { Switch, Route } from 'react-router-dom'
+import { observer } from 'mobx-react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Loading from './components/Loading'
@@ -11,7 +12,7 @@ const About = lazy(() => import('./pages/About'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 
-function App() {
+const App = observer(() => {
   return (
     <>
       <Header />
@@ -31,6 +32,6 @@ function App() {
       <Footer />
     </>
   )
-}
+})
 
 export default App
